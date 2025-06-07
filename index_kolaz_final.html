@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <title>Zahtev za zadatak</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+    }
+    .subtext {
+      font-size: 0.9em;
+      text-align: center;
+      color: #555;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #odgovor {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Dodela seta elemenata za Digitalni kolaž</h2>
+  <div class="subtext">Ova forma omogućava preuzimanje individualnog seta elemenata za Domaći zadatak Digitalni kolaž u okviru predmeta Multimedijalna produkcija.</div>
+  <form id="form">
+    <label>Ime i prezime:
+      <input type="text" name="ime" required>
+    </label>
+    <label>Broj indeksa:
+      <input type="text" name="indeks" required>
+    </label>
+    <label>Imejl:
+      <input type="email" name="mejl" required>
+    </label>
+    <button type="submit">Pošalji zahtev</button>
+  </form>
+  <p id="odgovor"></p>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const query = new URLSearchParams(data).toString();
+
+      fetch("https://script.google.com/macros/s/AKfycbyP-YN9RsYiaqss8HyDL_D7fHDLbLObONdxaG18qshvZq4RGcQFAw5zKPW3jnZglSRp/exec", {
+        method: "POST",
+        body: query,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      })
+      .then(response => response.text())
+      .then(text => {
+        document.getElementById("odgovor").innerText = text;
+        form.reset();
+      })
+      .catch(error => {
+        document.getElementById("odgovor").innerText = "Greška prilikom slanja: " + error;
+      });
+    });
+  </script>
+</body>
+</html>
